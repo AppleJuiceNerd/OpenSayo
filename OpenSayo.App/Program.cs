@@ -6,7 +6,9 @@ class Program {
 	public static void Main()
 	{
 		Console.WriteLine("yo");
-		Color myColor = new Color(20, 20 ,20);
-		Console.WriteLine(myColor);
+		O3C device = new();
+
+		
+		Console.WriteLine(device);
 	}
 }

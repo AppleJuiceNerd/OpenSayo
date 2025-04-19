@@ -1,4 +1,5 @@
-namespace OpenSayo.Device {
+namespace OpenSayo.Device
+{
 	class Color {
 		public byte g;
 		public byte r;
