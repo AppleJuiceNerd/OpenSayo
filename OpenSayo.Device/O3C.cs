@@ -30,12 +30,45 @@ class O3C
 			device = devices.ElementAt(index);
 			stream = device.Open();
 
+			// This is to make sure a potential next Read command works... not sure why it wouldn't without it
+			stream.Write([0x22]);
+
 		} catch { // If this fails, the device likely wasn't found
 			Console.WriteLine("Device wasn't found.");
 		}
 	}
 
+	// Not Working
+	public byte[] GetLights(byte key)
+	{
+		byte[] buffer = new byte[60];
 
+		buffer[0] = 0x22;
+		buffer[1] = 0x12;
+		buffer[2] = 0x26;
+		buffer[3] = 0x12;
+		buffer[4] = 0x04;
+		buffer[5] = 0x00;
+		buffer[6] = 0x00;
+		buffer[7] = key;
+		
+		stream.Read(buffer, 0, buffer.Length);
+		return buffer;
+	}
+	
+	// WILL ERASE ALL KEY LIGHTS IN FUNCTION
+	public bool SetLight(Color color, int key, int fn)
+	{
+		byte[] buffer = new byte[60];
+		
+		// Stuff goes here
+
+		// Util.Checksum(buffer);
+		stream.Write(buffer);
+		return true;
+	}
+
+	// ToString override
 	public override string ToString()
 	{
 		return device.GetProductName();
