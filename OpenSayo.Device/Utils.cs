@@ -14,6 +14,29 @@ namespace OpenSayo.Device
 			buffer[2] = (byte) (num & 0xFF);
 			buffer[3] = (byte) (num >> 8);
 		}
+
+		// Sets header parameters
+		// Should be called after the packet is constructed
+		public static void SetHeader(
+			byte[] buffer,
+			byte twelve, // unknown
+			byte cmd,
+			byte index,
+			int length // Possibly just buffer.Length - 8
+		)
+		{
+			ushort len = (ushort) (length + 4);
+			buffer[0] = 0x22; // Probably sometimes 0x23
+			buffer[1] = twelve; // Usually 12...
+			buffer[2] = 0; // Sum b1
+			buffer[3] = 0; // Sum b2
+			buffer[4] = (byte) (len & 0xFF); // Length?
+			buffer[5] = (byte) (len >> 8);
+			buffer[6] = cmd;
+			buffer[7] = index;
+
+			Checksum(buffer);
+		}
 	}
 
 
