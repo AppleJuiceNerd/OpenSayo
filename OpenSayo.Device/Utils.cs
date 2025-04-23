@@ -46,12 +46,27 @@ namespace OpenSayo.Device
 		public byte g;
 		public byte b;
 		
+		// Construct a Color from individual r, g and b bytes
 		public Color(byte red, byte blue, byte green) {
 			r = red;
 			g = green;
 			b = blue;
 		}
 
+		// Construct a Color from a single 6 digit hex number
+		public Color(int num) {
+			r = (byte) ( num >> 16 );
+			g = (byte) ( (num >> 8) & 0xFF);
+			b = (byte) ( num & 0xFF );
+		}
+
+		// Allow for explicit int to Color conversion
+		public static explicit operator Color(int v)
+		{
+			return new Color(v);
+		}
+
+		// ToString override
 		override public string ToString()
 		{
 			return "(" + r + ", " + g + ", " + b + ")";
