@@ -56,16 +56,39 @@ class O3C
 		return buffer;
 	}
 	
+	// Sets the color of a key's light
 	// WILL ERASE ALL KEY LIGHTS IN FUNCTION
 	public bool SetLight(Color color, int key, int fn)
 	{
-		byte[] buffer = new byte[60];
+		byte[] buffer = new byte[64];
 		
-		// Stuff goes here
+		// Bytes with an unknown purpose
+		buffer[0x08] = 0x01;
+		buffer[0x0C] = 0xB8;
+		buffer[0x0D] = 0x0B;
+		buffer[0x0E] = 0xB8;
+		buffer[0x0F] = 0x0B;
+		buffer[0x10] = 0x08;
+		buffer[0x11] = 0x07;
+		buffer[0x12] = 0x08;
+		buffer[0x13] = 0x07;
+		buffer[0x14] = 0x64;
 
-		// Util.Checksum(buffer);
+		ConstructLightSect(buffer, color, fn);
+
+		Util.SetHeader(buffer, 0x12, 0x11, (byte) key, 56);
 		stream.Write(buffer);
 		return true;
+	}
+	
+	// Constructs a light section of a light config packet
+	// Does not yet write anything but color data
+	private static void ConstructLightSect(byte[] buffer, Color color, int fn)
+	{
+		int offset = 0x18 + (8 * fn);
+		buffer[offset + 4] = color.r;
+		buffer[offset + 5] = color.g;
+		buffer[offset + 6] = color.b;
 	}
 
 	// ToString override

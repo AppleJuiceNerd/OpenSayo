@@ -10,5 +10,7 @@ class Program {
 
 		
 		Console.WriteLine(device);
+
+		device.SetLight((Color) 0xABCDEF, 0, 0);
 	}
 }
